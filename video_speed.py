@@ -8,6 +8,7 @@ from moviepy.editor import *
 
 init()
 
+
 def extract_image_from_video(path_file):
     if os.path.exists(path_file):
         suff = f'.{os.path.split(path_file)[-1].split(".")[-1]}'
@@ -35,6 +36,7 @@ def extract_image_from_video(path_file):
         print(Fore.RED + '[-] Указанного видео не существует')
         return
 
+
 def clip_from_image(path_dir, name_clip, s_duration):
     try:
         dur = float(s_duration)
@@ -55,6 +57,7 @@ def clip_from_image(path_dir, name_clip, s_duration):
     else:
         print(Fore.RED + '[-] Указанной директории не существует')
         return
+
 
 path_file = "D:\\py\\py.Task\\video-editor\\VID_20221101_213727.mp4"
 path_dir = "D:\\py\\py.Task\\video-editor\\VID_20221101_213727"

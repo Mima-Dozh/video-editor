@@ -88,120 +88,6 @@ def clip_video(path_file, start_time, end_time):
         return
 
 
-def remove_audio_from_video(path_file):
-    suff = f'.{os.path.split(path_file)[-1].split(".")[-1]}'
-    vid_name = f'{os.path.split(path_file)[-1].removesuffix(suff)}_witout_audio{suff}'
-    if os.path.isfile(path_file):
-        if os.path.split(path_file)[-1].endswith(".mp4") or os.path.split(path_file)[-1].endswith(".avi"):
-            print(Fore.CYAN + '[+] Удаление аудио')
-            video = VideoFileClip(path_file)
-            video.without_audio().write_videofile(os.path.join(os.path.split(path_file)[0], vid_name))
-            print(Fore.GREEN + f'[+] Удаление аудио завершено. \n   - Файл сохранен: '
-                  f'"{os.path.join(os.path.split(path_file)[0], vid_name)}"')
-            main()
-            return
-        else:
-            print(Fore.RED + '[-] Формат файла не поддерживается')
-            main()
-            return
-    else:
-        print(Fore.RED + '[-] Файл не обнаружен')
-        main()
-        return
-
-
-def extract_mp3(path_file):
-    file_in_dir = []
-    if os.path.isdir(path_file):
-        print(Fore.CYAN + '[+] Сканирование директории')
-        file_in_dir = os.listdir(path_file)
-    elif os.path.isfile(path_file):
-        file_in_dir = os.listdir(os.getcwd())
-
-    video_to_extract = []
-    mp3_list = []
-
-    for file in file_in_dir:
-        print(Fore.CYAN + f'\r[+] Добавляю файлы для извлечения: "{file}"', end='')
-        if file.endswith(".mp4") or file.endswith(".avi"):
-            mp3_suff = f'.{file.replace(".", "_").split("_")[-1]}'
-            mp3_list.append(f'{file.removesuffix(mp3_suff)}.mp3')
-            video_to_extract.append(VideoFileClip(os.path.join(os.getcwd(), file)))
-
-    if len(video_to_extract) > 0:
-        print(Fore.CYAN + '\n[+] Запуск извлечения аудио\n')
-        for num, video in enumerate(video_to_extract):
-            if os.path.exists(os.path.join(os.getcwd(), mp3_list[num])):
-                mp3_name = f'{mp3_list[num].removesuffix(".mp3")}_{num + 1}.mp3'
-                video.audio.write_audiofile(os.path.join(os.getcwd(), mp3_name))
-                print(Fore.YELLOW + f'[+] Аудио из файла: "{mp3_name}" извлечено\n')
-            else:
-                video.audio.write_audiofile(os.path.join(os.getcwd(), mp3_list[num]))
-                print(Fore.YELLOW + f'[+] Аудио из файла: "{mp3_list[num]}" извлечено\n')
-        print(Fore.GREEN + '[+] Все видео файлы в директории обработаны. Аудио извлечено')
-    else:
-        print(Fore.RED + '\n[-] Файлов в директории не обнаружено')
-        return
-
-
-def zoom_in_out(path_file, value):
-    try:
-        float(value)
-    except ValueError:
-        print(Fore.RED + '[-] Введено неверное значение коэффициента')
-        main()
-        return
-
-    suff = f'.{os.path.split(path_file)[-1].split(".")[-1]}'
-    vid_name = f'{os.path.split(path_file)[-1].removesuffix(suff)}_zoom{suff}'
-    if os.path.isfile(path_file):
-        if os.path.split(path_file)[-1].endswith(".mp4") or os.path.split(path_file)[-1].endswith(".avi"):
-            print(Fore.CYAN + f'[+] Изменение громкости звука видео на: {value}')
-            video = VideoFileClip(path_file)
-            video.volumex(float(value)).write_videofile(os.path.join(os.path.split(path_file)[0], vid_name))
-            print(Fore.GREEN + f'[+] Громкость изменена. Видео сохранено в папку: '
-                  f'"{os.path.join(os.path.split(path_file)[0], vid_name)}"')
-            main()
-            return
-        else:
-            print(Fore.RED + '[-] Файл не поддерживаемого формата')
-            main()
-            return
-    else:
-        print(Fore.RED + '[-] Указанного файла не существует')
-        main()
-        return
-
-
-def merge_video_audio(path_file_v, path_file_a):
-    if not os.path.exists(path_file_v):
-        print(Fore.RED + '[-] С видеофайлом непорядок')
-        main()
-        return
-
-    if not os.path.exists(path_file_a):
-        print(Fore.RED + '[-] С аудиофайлом непорядок')
-        main()
-        return
-
-    suff = f'.{os.path.split(path_file_v)[-1].split(".")[-1]}'
-    vid_name = f'{os.path.split(path_file_v)[-1].removesuffix(suff)}_aud{suff}'
-    if path_file_v.endswith(".mp4") or path_file_v.endswith(".avi") and path_file_a.endswith(".mp3"):
-        print(Fore.CYAN + '[+] Добавляю аудио к видео')
-        videoclip = VideoFileClip(path_file_v)
-        audioclip = AudioFileClip(path_file_a)
-
-        videoclip.audio = audioclip
-        videoclip.write_videofile(os.path.join(os.path.split(path_file_v)[0], vid_name))
-        print(Fore.GREEN + f'[+] Аудио добавлено. Файл сохранен: "{os.path.join(os.path.split(path_file_v)[0], vid_name)}"')
-        main()
-        return
-    else:
-        print(Fore.RED + '[-] Неверный формат файлов')
-        main()
-        return
-
-
 def extract_image_from_video(path_file):
     if os.path.exists(path_file):
         suff = f'.{os.path.split(path_file)[-1].split(".")[-1]}'
@@ -256,9 +142,7 @@ def clip_from_image(path_dir, name_clip, s_duration):
 
 def main():
     user_change = input(Fore.RESET + '\n[+] Выберите действие:\n   [1] Объединить видео\n   [2] Вырезать фрагмент\n   '
-                        '[3] Удалить аудиодорожку из видео\n   [4] Извлечь аудио\n   [5] Изменить громкость видео\n'
-                        '   [6] Добавить аудио к видео\n   [7] Извлечь кадры из видео\n   '
-                        '[8] Создать клип из картинок\n   [9] Выход\n   >>> ')
+                        '[3] Извлечь кадры из видео\n   [4] Создать клип из картинок\n   [5] Выход\n   >>> ')
     if user_change == "1":
         merge_video_clip(input('\n[+] Введите путь к папке с файлами: '),
                          input('[+] Введите название для объединенного видео: '))
@@ -268,21 +152,11 @@ def main():
                    input('[+] Введите время окончания фрагмента\n'
                          '   - пример: 03:50\n   >>> '))
     elif user_change == "3":
-        remove_audio_from_video(input('\n[+] Введите путь к файлу видео: '))
-    elif user_change == "4":
-        extract_mp3(input('\n[+] Введите путь к видео или, к папке с видео: '))
-    elif user_change == "5":
-        zoom_in_out(input('\n[+] Введите путь к файлу видео: '),
-                    input('[+] Введите коэффициент для изменения громкости\n   '
-                          '- Нормальная громкость: 1 (пример коэффициента: 0.5, 1.2)\n   >>> '))
-    elif user_change == "6":
-        merge_video_audio(input('\n[+] Введите путь к файлу видео: '), input('[+] Введите путь к файлу аудио: '))
-    elif user_change == "7":
         extract_image_from_video(input('\n[+] Введите путь к файлу видео: '))
-    elif user_change == "8":
+    elif user_change == "4":
         clip_from_image(input('\n[+] Введите путь к папке с картинками: '), input('[+] Введите название клипа: '),
                         input('[+] Введите продолжительность показа кадра (прим.: 0.1 или 1): '))
-    elif user_change == "9":
+    elif user_change == "5":
         exit(0)
     else:
         print(Fore.RED + '\n[-] Неопознанный выбор. Повторите снова')
