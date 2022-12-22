@@ -14,5 +14,6 @@ def video_speed(in_loc, out_loc, speed_factor):
     final = clip.fx(vfx.speedx, int(speed_factor))
     print("fps: {}".format(final.fps))
 
+    print(out_loc)
     # Save video clip
     final.write_videofile(out_loc)
