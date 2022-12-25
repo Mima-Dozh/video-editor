@@ -5,11 +5,12 @@ from merge_videos import merge_videos
 from clip_video import clip_video
 from extract_image_from_video import extract_image_from_video
 from video_speed import video_speed
+from fadein_video import fadein_video
+from fadeout_video import fadeout_video
 from clip_from_image import clip_from_image
 import tempfile
 from pathlib import Path
 import shutil
-from retry import retry
 import uuid
 
 init()
@@ -18,11 +19,12 @@ RESET = Fore.RESET
 GRAY = Fore.LIGHTBLACK_EX
 RED = Fore.RED
 
+
 def save_video(a):
     if len(a) == 0:
         print(RED + "Здесь нечего сохранять" + RESET)
         return
-    
+
     i = 0
     while True:
         try:
@@ -35,6 +37,7 @@ def save_video(a):
             i += 1
             continue
         break
+
 
 def create_file_name(path, index, rr):
     return str(path / (str(uuid.uuid4()) + f'_{index}' + rr))
@@ -50,7 +53,8 @@ def main():
                 i += 1
                 user_change = input(RESET + '\n[+] Выберите действие:\n\t[1] Объединить видео\n\t[2] Вырезать фрагмент\n\t'
                                     '[3] Извлечь кадры из видео\n\t[4] Создать клип из картинок\n\t'
-                                    '[5] Изменить скорость видео\n\t[6] Сохранить изменения\n\t[7] Отменить изменения\n\t[8] Выход\n>>> ')
+                                    '[5] Изменить скорость видео\n\t[6] Эффект fade-in\n\t[7] Эффект fade-out\n\t'
+                                    '[8] Сохранить изменения\n\t[9] Отменить изменения\n\t[10] Выход\n>>> ')
                 if user_change == "1":
                     merge_videos(input('\n[+] Введите путь к папке с файлами: '),
                                     str(path_dir/(str(i) + '.mp4')))
@@ -68,13 +72,19 @@ def main():
                     video_speed(input('\n[+] Введите имя видео: '), create_file_name(path_dir, i, '.mp4'),
                                 input('\n[+] Введите коэффициент ускорения видео: '))
                 elif user_change == "6":
+                    fadein_video(input('\n[+] Введите путь к файлу видео: '), create_file_name(path_dir, i, '.mp4'),
+                                 int(input('\n[+] Введите время эффекта: ')))
+                elif user_change == "7":
+                    fadeout_video(input('\n[+] Введите путь к файлу видео: '), create_file_name(path_dir, i, '.mp4'),
+                                  int(input('\n[+] Введите время эффекта: ')))
+                elif user_change == "8":
                     save_video(list(path_dir.glob(f'*_{str(i-1)}.*')))
                     i-=1
-                elif user_change == "7":
+                elif user_change == "9":
                     if i != 0:
                         os.remove(str(path_dir/(str(i-1) + '.mp4')))
                         i -= 2
-                elif user_change == "8":
+                elif user_change == "10":
                     save_video(list(path_dir.glob(f'*_{str(i-1)}.*')))
                     return
                 else:
@@ -85,6 +95,7 @@ def main():
                     exit(0)
                 j+=1
                 print(RED + '\nЧерти мешают работе!\n Попробуйте еще раз' + RESET)
+
 
 if __name__ == "__main__":
     main()
