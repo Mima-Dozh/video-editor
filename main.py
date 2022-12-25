@@ -42,6 +42,32 @@ def save_video(a):
 def create_file_name(path, index, rr):
     return str(path / (str(uuid.uuid4()) + f'_{index}' + rr))
 
+def check_path(input_text):
+    p = input(input_text)
+    i = 0
+    while not os.path.exists(p):
+        if i > 10:
+            print(RED + "Я устал искать фаилы, дальше ты сам!" )
+            print_mem()
+        print(RED + "Я не знаю таких фаилов. Может ты перепутал?\n Попробуй другое имя или путь")
+        p = input(RESET + input_text)
+        i += 1
+    return p
+
+def print_mem():
+    print('        ⢀⣤⣤⣶⠶⠶⣶⣤⣤⡀\n'+
+        '⠀⠀⠀⠀⠀⢀⣴⠾⠛⠉⠀⢠⣾⣴⡾⠛⠻⣷⣄\n'+
+        '⠀⠀⢶⣶⣶⣿⣁⠀⠀⠀⠀⢸⣿⠏⢀⣤⣶⣌⠻⣦⡀⠀⠀⠀\n'+
+        '⠀⠀⣴⡟⠁⢉⣙⣿⣦⡀⠀⢸⡏⣴⠟⢡⣶⣿⣧⡹⣷⡀⠀⠀\n'+
+        '⠀⣼⠏⢀⣾⠟⠛⠛⠻⣿⡆⠀⠀⢿⣄⠀⠙⠉⠹⣷⡸⣷⠀⠀\n'+
+        '⢠⣿⠀⢸⡿⢿⠇⠀⠀⣾⠇⠀⣀⣈⠻⢷⣤⣤⣤⡾⠃⢹⣇⠀\n'+
+        '⢸⣿⠀⢸⣧⣀⣀⣠⣾⢋⣴⢿⣿⡛⠻⣶⣤⣉⠁⠀⠀⠀⣿⠀\n'+
+        '⠈⣿⠀⠀⠙⠛⠛⠋⠁⣼⣯⣀⣿⠿⠶⠟⠉⠛⢷⣄⠀⠀⣿⡇\n'+
+        '⠀⣿⠀⠀⠀⠀⠀⠀⠀⣿⡏⠉⠁⠀⠀⢀⣴⢶⣄⢻⡇⠀⢸⡇\n'+
+        '⠀⢻⣇⠀⠀⠀⠀⠀⢠⡿⢀⣀⢠⣾⠷⣾⣧⡶⠿⠟⠁⠀⣾⡇\n'+
+        '⠀⠈⣿⣧⡀⠀⠀⣠⣿⣷⠟⢻⣿⣷⡾⠛⠉⠀⠀⠀⠀⢀⣿⠀\n'+
+        '⠀⠀⢹⣿⢻⣦⡀⠉⠛⠛⠛⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⣼⠏⠀\n'+
+        '⠀⠀⠀⠛⠀⠈⠻⠷⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⠟⠀⠀\n')
 
 def main():
     with tempfile.TemporaryDirectory(dir = Path()) as tmpdirname:
@@ -56,26 +82,26 @@ def main():
                                     '[5] Изменить скорость видео\n\t[6] Эффект fade-in\n\t[7] Эффект fade-out\n\t'
                                     '[8] Сохранить изменения\n\t[9] Отменить изменения\n\t[10] Выход\n>>> ')
                 if user_change == "1":
-                    merge_videos(input('\n[+] Введите путь к папке с файлами: '),
-                                    str(path_dir/(str(i) + '.mp4')))
+                    merge_videos(check_path('\n[+] Введите путь к папке с файлами: '),
+                                    create_file_name(path_dir, i, '.mp4'))
                 elif user_change == "2":
-                    clip_video(input('\n[+] Введите путь к файлу видео: '), input('[+] Введите время начала фрагмента\n'
+                    clip_video(check_path('\n[+] Введите путь к файлу видео: '), input('[+] Введите время начала фрагмента\n'
                                                                                     '   - пример: 02:25\n   >>> '),
                                 input('[+] Введите время окончания фрагмента\n'
                                         '   - пример: 03:50\n   >>> '))
                 elif user_change == "3":
-                    extract_image_from_video(input('\n[+] Введите путь к файлу видео: '))
+                    extract_image_from_video(check_path('\n[+] Введите путь к файлу видео: '))
                 elif user_change == "4":
-                    clip_from_image(input('\n[+] Введите путь к папке с картинками: '), create_file_name(path_dir, i, '.mp4'),
+                    clip_from_image(check_path('\n[+] Введите путь к папке с картинками: '), create_file_name(path_dir, i, '.mp4'),
                                     input('[+] Введите продолжительность показа кадра (прим.: 0.1 или 1): '))
                 elif user_change == "5":
-                    video_speed(input('\n[+] Введите имя видео: '), create_file_name(path_dir, i, '.mp4'),
+                    video_speed(check_path('\n[+] Введите имя видео: '), create_file_name(path_dir, i, '.mp4'),
                                 input('\n[+] Введите коэффициент ускорения видео: '))
                 elif user_change == "6":
-                    fadein_video(input('\n[+] Введите путь к файлу видео: '), create_file_name(path_dir, i, '.mp4'),
+                    fadein_video(check_path('\n[+] Введите путь к файлу видео: '), create_file_name(path_dir, i, '.mp4'),
                                  int(input('\n[+] Введите время эффекта: ')))
                 elif user_change == "7":
-                    fadeout_video(input('\n[+] Введите путь к файлу видео: '), create_file_name(path_dir, i, '.mp4'),
+                    fadeout_video(check_path('\n[+] Введите путь к файлу видео: '), create_file_name(path_dir, i, '.mp4'),
                                   int(input('\n[+] Введите время эффекта: ')))
                 elif user_change == "8":
                     save_video(list(path_dir.glob(f'*_{str(i-1)}.*')))
@@ -85,16 +111,26 @@ def main():
                         os.remove(str(path_dir/(str(i-1) + '.mp4')))
                         i -= 2
                 elif user_change == "10":
-                    save_video(list(path_dir.glob(f'*_{str(i-1)}.*')))
+                    while i > 1:
+                        a = input(RESET + 'Увас есть не сохраненый прогресс желаете его сохранить?\n(Да/Нет)')
+                        if a.lower() == 'да':
+                            save_video(list(path_dir.glob(f'*_{str(i-1)}.*')))
+                            i-=1
+                        elif a.lower() == 'нет':
+                            break
+                        else:
+                            print(RED + "Ты наверно не понял у тебя только 2 варианта ответа\nДавай попробуем заного\n")
+                    print(GREEN + 'Работа завершена\nОбращайтесь ещё!')
                     return
                 else:
                     print(RED + '\n[-] Неопознанный выбор. Повторите снова' + RESET)
             except:
                 if j > 10:
-                    print(RED + "Я устал ошибаться")
+                    print(RED + "\nЯ устал ошибаться")
+                    print_mem()
                     exit(0)
                 j+=1
-                print(RED + '\nЧерти мешают работе!\n Попробуйте еще раз' + RESET)
+                print(RED + '\nЧерти мешают работе!\nПопробуйте еще раз' + RESET)
 
 
 if __name__ == "__main__":
