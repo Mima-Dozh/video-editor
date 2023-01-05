@@ -1,7 +1,7 @@
 import unittest
 from pathlib import Path
 from video_speed import video_speed
-from moviepy.editor import VideoFileClip
+from moviepy.editor import VideoFileClip, AudioFileClip
 from main import create_file_name
 from fadein_video import fadein_video
 from fadeout_video import fadeout_video
@@ -21,6 +21,17 @@ class VideoEditorTests(unittest.TestCase):
 
         actual = clip_x2.duration
         expected = clip.duration / speed_factor
+
+        self.assertAlmostEqual(actual, expected, 1)
+
+    def test_video_speed_audio_x2(self):
+        speed_factor = 2
+        video_speed(self.test_video, self.output_video, speed_factor)
+        audio = AudioFileClip(self.test_video)
+        audio_x2 = AudioFileClip(self.output_video)
+
+        actual = audio_x2.duration
+        expected = audio.duration / speed_factor
 
         self.assertAlmostEqual(actual, expected, 1)
 

@@ -2,17 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ecacb143-2ce7-4a9c-9e65-c82b992af684" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/test_folder/IMG_20220928_110053.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_folder/VID_20220928_111008.mp4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_folder/VID_20221101_213727.mp4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_folder/output.mp4" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/IMG_20220928_110053.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/VID_20220928_111008.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/VID_20221101_213727.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.mp4" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/video-editor.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +42,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\skomo\AppData\Local\Programs\Python\Python39\python.exe" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -130,9 +122,9 @@
     </configuration>
     <list>
       <item itemvalue="Python.main" />
+      <item itemvalue="Python.tests" />
       <item itemvalue="Python.video_speed" />
       <item itemvalue="Python.watch_video" />
-      <item itemvalue="Python.tests" />
     </list>
     <recent_temporary>
       <list>
@@ -164,5 +156,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/main.py</url>
+          <line>149</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
