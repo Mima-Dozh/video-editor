@@ -135,7 +135,7 @@ def main():
                     return
                 else:
                     print(RED + '\n[-] Неопознанный выбор. Повторите снова' + RESET)
-            except:
+            except ValueError:
                 if j > 10:
                     print(RED + "\nЯ устал ошибаться")
                     print_mem()

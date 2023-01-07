@@ -6,12 +6,13 @@ from main import create_file_name
 from fadein_video import fadein_video
 from fadeout_video import fadeout_video
 from rotate_video import rotate_video
+from clip_video import clip_video
 
 
 class VideoEditorTests(unittest.TestCase):
     def setUp(self):
-        self.test_video = str(Path("test_folder\\VID_20220928_111008.mp4").absolute())
-        self.output_video = str(Path("test_folder\\VID_20220928_111008(out).mp4").absolute())
+        self.test_video = str(Path("test_folder", "VID_20220928_111008.mp4").absolute())
+        self.output_video = str(Path("test_folder", "VID_20220928_111008(out).mp4").absolute())
 
     def test_video_speed_x2(self):
         speed_factor = 2
@@ -37,7 +38,7 @@ class VideoEditorTests(unittest.TestCase):
 
     def test_with_wrong_file(self):
         speed_factor = 2
-        test_video = str(Path("test_folder\\VID_20220928_11100.mp4").absolute())
+        test_video = str(Path("test_folder", "VID_20220928_11100.mp4").absolute())
         self.assertRaises(OSError, video_speed, test_video, self.output_video, speed_factor)
 
     def test_with_wrong_speed_factor(self):
@@ -45,7 +46,7 @@ class VideoEditorTests(unittest.TestCase):
         self.assertRaises(ValueError, video_speed, self.test_video, self.output_video, speed_factor)
 
     def test_create_file_name(self):
-        path_dir = Path("video-editor\\test_folder").absolute()
+        path_dir = Path("video-editor", "test_folder").absolute()
         file_name = create_file_name(path_dir, 10, '.mp4')
         file_name2 = create_file_name(path_dir, 10, '.mp4')
         self.assertNotEqual(file_name, file_name2)
@@ -80,9 +81,11 @@ class VideoEditorTests(unittest.TestCase):
     def test_fadein_video2(self):
         self.assertRaises(TypeError, fadein_video, self.test_video, self.output_video, "2")
 
+    def test_clip_video(self):
+        self.assertRaises(OSError, clip_video, self.test_video, "1", "20")
 
-
-
+    def test_clip_video2(self):
+        self.assertRaises(AttributeError, clip_video, self.test_video, 1, 20)
 
 
 if __name__ == "__main__":
