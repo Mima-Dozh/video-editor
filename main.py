@@ -9,6 +9,7 @@ from fadein_video import fadein_video
 from fadeout_video import fadeout_video
 from rotate_video import rotate_video
 from clip_from_image import clip_from_image
+from RGB_matrix import find_RGB_matrix
 import tempfile
 from pathlib import Path
 import shutil
@@ -82,8 +83,8 @@ def main():
                 user_change = input(RESET + '\n[+] Выберите действие:\n\t[1] Объединить видео\n\t[2] Вырезать фрагмент\n\t'
                                     '[3] Извлечь кадры из видео\n\t[4] Создать клип из картинок\n\t'
                                     '[5] Изменить скорость видео\n\t[6] Эффект fade-in\n\t[7] Эффект fade-out\n\t'
-                                    '[8] Изменить угол картинки\n\t[9] Сохранить изменения\n\t[10] Отменить изменения\n\t'
-                                    '[11] Посмотреть результат\n\t[12] Выход\n>>> ')
+                                    '[8] Изменить угол картинки\n\t[9] Создать RGB матрицу по кадру\n\t[10] Сохранить изменения\n\t'
+                                    '[11] Отменить изменения\n\t[12] Посмотреть результат\n\t[13] Выход\n>>> ')
                 if user_change == "1":
                     merge_videos(check_path('\n[+] Введите путь к папке с файлами: '),
                                     create_file_name(path_dir, i, '.mp4'))
@@ -110,20 +111,23 @@ def main():
                     rotate_video(check_path('\n[+] Введите путь к файлу видео: '), create_file_name(path_dir, i, '.mp4'),
                                   int(input('\n[+] Введите угол поворота: ')))
                 elif user_change == "9":
+                    find_RGB_matrix(check_path('\n[+] Введите путь к файлу видео: '), create_file_name(path_dir, i, '.txt'), 
+                                    input('\n[+] Введите время в формате HH:MM:SS: '))
+                elif user_change == "10":
                     save_video(list(path_dir.glob(f'*_{str(i-1)}.*')))
                     i-=1
-                elif user_change == "10":
+                elif user_change == "11":
                     i -=1
                     if i != 0:
                         os.remove(list(path_dir.glob(f'*_{str(i)}.*'))[0])
                         i -= 1
-                elif user_change == "11":
+                elif user_change == "12":
                     i -=1
                     if i != 0:
                         os.startfile(list(path_dir.glob(f'*_{str(i)}.*'))[0])
-                elif user_change == "12":
+                elif user_change == "13":
                     while i > 1:
-                        a = input(YELLOW + 'Увас есть не сохраненый прогресс желаете его сохранить?\n(Да/Нет)')
+                        a = input(YELLOW + 'У вас есть не сохраненый прогресс желаете его сохранить?\n(Да/Нет)')
                         if a.lower() == 'да':
                             save_video(list(path_dir.glob(f'*_{str(i-1)}.*')))
                             i-=1
